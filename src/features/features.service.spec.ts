@@ -2,6 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { FeaturesService } from "./features.service";
 import { PrismaService } from "@/prisma/prisma.service";
 import { GlobalService } from "@/global/global.service";
+import { toBeArray } from "jest-extended";
 import { prismaMock } from "@/prisma/singleton";
 import { CustomRequest } from "@/global/types/CustomRequest";
 import { CreateFeatureDto } from "./dto/create-feature.dto";
@@ -10,6 +11,7 @@ import { FeatureCategory, VoyageTeamMember } from "@prisma/client";
 import { UpdateFeatureDto } from "./dto/update-feature.dto";
 import { UpdateFeatureOrderAndCategoryDto } from "./dto/update-feature-order-and-category.dto";
 
+expect.extend({ toBeArray });
 const userReq = {
     userId: "aa9d050e-5756-4c3c-bc04-071f39f53663",
     email: "test@test.com",
@@ -91,7 +93,7 @@ const mockFeatureCategory = [
         name: "should have",
         id: 2,
         description:
-            '"stretch goals" to be worked on when you’ve implemented all the "Must Haves"',
+            '"stretch goals" to be worked on when youve implemented all the "Must Haves"',
         createdAt: mockDate,
         updatedAt: mockDate,
     },
@@ -99,7 +101,7 @@ const mockFeatureCategory = [
         name: "nice to have",
         id: 3,
         description:
-            '"stretch goals" to be worked on when you’ve implemented all the "Must Haves" and "Should Haves"',
+            '"stretch goals" to be worked on when youve implemented all the "Must Haves" and "Should Haves"',
         createdAt: mockDate,
         updatedAt: mockDate,
     },
@@ -207,7 +209,7 @@ describe("FeaturesService", () => {
 
             const result = await service.findFeatureCategories();
 
-            expect(result).toBeArray;
+            expect(result).toBeArray();
             expect(result).toHaveLength(3);
             expect(result[0]).toEqual({
                 name: expect.any(String),
@@ -239,7 +241,7 @@ describe("FeaturesService", () => {
                 requestMock,
             );
 
-            expect(result).toBeArray;
+            expect(result).toBeArray();
             expect(result).toHaveLength(2);
             expect(result).toEqual(mockFeaturesArray);
             expect(prismaMock.projectFeature.findMany).toHaveBeenCalledWith({
